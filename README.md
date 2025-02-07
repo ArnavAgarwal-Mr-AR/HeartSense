@@ -36,7 +36,7 @@ The dataset used in this project is `dataset.csv`, which includes medical attrib
 - **ST Slope**
 - **Heart Disease (Target Variable)**
 
-![Data Correlation](Images/correlation_matrix.png|width=10)
+![Data Correlation](Images/correlation_matrix.png)
 
 ## Running the Application
 ### Steps to Use
