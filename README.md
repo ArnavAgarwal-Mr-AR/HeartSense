@@ -1,65 +1,109 @@
-# HeartSense
+# Heart Disease Prediction Application (HeartSense)
 
-HeartSense is an analytical project designed to analyze and visualize heart health data effectively. This repository includes the core R script for the analysis and accompanying visual assets.
+## Overview
+This project is a machine learning-based heart disease prediction application built using Python. It utilizes multiple classification models to predict the likelihood of heart disease based on user-inputted medical parameters. The application is implemented using the `Gradio` library for an interactive interface and several machine learning models for prediction.
 
-## Directory Structure
-
-```
-arnavagarwal-mr-ar-heartsense/
-├── README.md          # Project documentation
-├── LICENSE            # License details
-├── finalcode.r        # R script for heart health data analysis
-└── Images/            # Folder containing visual assets and graphs
-```
+Try it here: https://huggingface.co/spaces/MrAR/HeartSense
 
 ## Features
+- **Data Preprocessing**: The dataset is cleaned by removing duplicates and handling outliers using the Interquartile Range (IQR) method.
+- **Feature Encoding**: Categorical variables are label-encoded for compatibility with machine learning models.
+- **Data Splitting & Scaling**: The dataset is split into training and testing sets (70%-30%) and continuous variables are standardized.
+- **Multiple Model Training**: The following machine learning models are trained and evaluated:
+  - Logistic Regression
+  - Decision Tree
+  - Gradient Boosting
+  - K-Nearest Neighbors (KNN)
+  - Support Vector Machine (SVM)
+  - Random Forest
+  - XGBoost
+- **Model Evaluation**: Performance metrics such as accuracy, precision, recall, and F1-score are computed for each model.
+- **Prediction with Weighted Models**: User inputs are processed, and multiple models contribute to a weighted prediction.
+- **Interactive Web Interface**: The application provides a simple UI for inputting patient details and receiving predictions.
 
-- **Data Analysis**: Core R script for processing and analyzing heart health datasets.
-- **Visualization**: Graphical representations of data trends and insights.
+## Dataset
+The dataset used in this project is `dataset.csv`, which includes medical attributes like:
+- **Age**
+- **Resting Blood Pressure (RestingBP)**
+- **Cholesterol Levels**
+- **Maximum Heart Rate (MaxHR)**
+- **Oldpeak (ST Depression Induced by Exercise)**
+- **Fasting Blood Sugar (FastingBS)**
+- **Sex**
+- **Chest Pain Type**
+- **Resting Electrocardiographic Results (RestingECG)**
+- **Exercise-Induced Angina**
+- **ST Slope**
+- **Heart Disease (Target Variable)**
 
-## Getting Started
+![Data Correlation](Images/correlation_matrix.png)
 
-### Prerequisites
-
-- [R](https://www.r-project.org/) (version 4.0 or higher)
-- Required R packages:
-  - `ggplot2`
-  - `dplyr`
-  - `tidyr`
-
-Install required packages with:
-
-```R
-install.packages(c("ggplot2", "dplyr", "tidyr"))
-```
-
-### Running the Script
-
+## Running the Application
+### Steps to Use
 1. Clone the repository:
-
    ```bash
-   git clone https://github.com/ArnavAgarwal-Mr-AR/HeartSense.git
+   git clone https://github.com/yourusername/heart-disease-prediction.git
+   cd heart-disease-prediction
    ```
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Ensure the dataset `dataset.csv` is present in the project directory.
+4. Run the application:
+   ```bash
+   python app.py
+   ```
+5. Open the provided Gradio link in your browser to interact with the application.
 
-2. Open the R script `finalcode.r` in your R environment.
-3. Execute the script to process the dataset and generate visualizations. Outputs will be saved in the `Images/` folder.
+## How It Works
 
-## Repository Contents
+![Methodology](Images/flowchart.png)
 
-- **finalcode.r**: Contains the complete R script for data analysis and visualization.
-- **Images/**: Includes generated graphs and visual representations.
+1. **Data Preprocessing:**
+   - Duplicate rows are removed.
+   - Outliers in continuous features are removed using the IQR method.
+   - Categorical features are encoded using label encoding.
+   - Data is split into training and testing sets.
+   - Continuous features are standardized using `StandardScaler`.
+2. **Model Training:**
+   - Various classification models are trained on the dataset.
+   - Evaluation metrics are computed.
+   - A weighted metric is computed for model comparison.
+   
+   ![Model Comparison](Images/result_graph.png)
+   ![Model results](Images/results.png)
+   
+4. **Prediction:**
+   - User inputs are transformed into a format suitable for the models.
+   - Predictions are generated from all trained models.
+   - A weighted aggregation method determines the final prediction.
 
-## Contributing
+ ![Sample results](Images/sample results.png)
+5. **User Interface:**
+   - Users input medical details via a Gradio interface.
+   - The system predicts the likelihood of heart disease and provides a message based on risk assessment.
 
-Contributions are welcome! To contribute:
-1. Fork the repository.
-2. Create a new branch (`feature/your-feature-name`).
-3. Commit your changes (`git commit -m 'Add new feature'`).
-4. Push to the branch (`git push origin feature/your-feature-name`).
-5. Open a Pull Request.
+  ![image](https://github.com/user-attachments/assets/961a56fd-2a60-4c9e-b746-fb5e7a3cee1f)
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Expected Output
+- If the model predicts a high risk of heart disease, the output will be:
+  - "You might get a heart stroke, take precautions."
+- If the model predicts a low risk, the output will be:
+  - "You are safe."
+
+## Model Formulations
+The mathematical formulations used in model evaluation and prediction:
+
+![Formulations](Images/novelty_1.png)
+![Formulations](Images/novelty_2.png)
+
+## Future Enhancements
+- Improve model selection based on feature importance.
+- Implement deep learning-based models for better accuracy.
+- Deploy the application using cloud platforms like AWS or Heroku.
+- Include visualizations for better user understanding.
 
 ## Contact me 📪
 <div id="badges">
@@ -74,4 +118,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
  <img src="https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white"  alt="Medium Badge" />
  </a>
 </div>
-
