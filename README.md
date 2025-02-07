@@ -36,14 +36,14 @@ The dataset used in this project is `dataset.csv`, which includes medical attrib
 - **ST Slope**
 - **Heart Disease (Target Variable)**
 
-![Data Correlation](Images/correlation_matrix.png)
+![Data Correlation](Images/correlation_matrix.png | width = 10)
 
 ## Running the Application
 ### Steps to Use
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/heart-disease-prediction.git
-   cd heart-disease-prediction
+   git clone https://github.com/ArnavAgarwal-Mr-AR/HeartSense.git
+   cd HeartSense
    ```
 2. Install the required dependencies:
    ```bash
