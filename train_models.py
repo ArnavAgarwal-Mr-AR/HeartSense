@@ -57,41 +57,37 @@ models = {
 }
 
 results = []
-trained_models = {}
+model_weights = {}
 
 for name, model in models.items():
     model.fit(X_train, y_train)
-    trained_models[name] = model
     y_pred = model.predict(X_test)
+    
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred)
-    results.append([name, accuracy, precision, recall, f1])
+    
+    # Calculate weight φ = (Accuracy * F1 score) / Precision
+    weight = (accuracy * f1) / precision if precision > 0 else 0
+    model_weights[name] = weight
+    
+    results.append([name, accuracy, precision, recall, f1, weight])
+    
+    # Save individual model
+    with open(f'model_{name.replace(" ", "_").lower()}.pkl', 'wb') as f:
+        pickle.dump(model, f)
+    print(f"Saved: model_{name.replace(' ', '_').lower()}.pkl")
 
 # Convert results to DataFrame
-results_df = pd.DataFrame(results, columns=["Model", "Accuracy", "Precision", "Recall", "F1_Score"])
+results_df = pd.DataFrame(results, columns=["Model", "Accuracy", "Precision", "Recall", "F1_Score", "Weight"])
 
-# Calculate metrics
-metrics = results_df[["Model", "Accuracy", "F1_Score", "Precision"]].copy()
-metrics["Metric"] = (metrics["Accuracy"] * metrics["F1_Score"]) / metrics["Precision"]
-
-# Calculate average metric and ratios
-avg_metric = metrics["Metric"].mean()
-metrics["Ratio"] = metrics["Metric"] / avg_metric
-
-# Create a dictionary for ratios
-ratios = dict(zip(metrics["Model"], metrics["Ratio"]))
-
-# Save all necessary components
-with open('models.pkl', 'wb') as f:
-    pickle.dump(trained_models, f)
-
+# Save scaler and metadata
 with open('scaler.pkl', 'wb') as f:
     pickle.dump(scaler, f)
 
-with open('ratios.pkl', 'wb') as f:
-    pickle.dump(ratios, f)
+with open('model_weights.pkl', 'wb') as f:
+    pickle.dump(model_weights, f)
 
 with open('feature_names.pkl', 'wb') as f:
     pickle.dump(X_train.columns.tolist(), f)
@@ -99,8 +95,15 @@ with open('feature_names.pkl', 'wb') as f:
 with open('continuous_cols.pkl', 'wb') as f:
     pickle.dump(continuous_cols, f)
 
-print("Models and components saved successfully!")
-print("\nModel Performance:")
+# Calculate total number of models
+n_models = len(models)
+with open('n_models.pkl', 'wb') as f:
+    pickle.dump(n_models, f)
+
+print("\nAll models and components saved successfully!")
+print(f"\nTotal models: {n_models}")
+print("\nModel Performance and Weights:")
 print(results_df)
-print("\nRatios:")
-print(ratios)
+print("\nModel Weights (φ):")
+for name, weight in model_weights.items():
+    print(f"{name}: {weight:.4f}")
